@@ -1,4 +1,13 @@
 steps:
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'deployment.yaml']
-
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: bash
+  args:
+    - -c
+    - |
+      echo "Upgrading node pool..."
+      gcloud container clusters upgrade my-cluster \
+        --node-pool=default-pool \
+        --cluster=my-cluster \
+        --region=us-central1 \
+        --project=$PROJECT_ID \
+        --quiet
