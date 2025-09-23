@@ -6,7 +6,7 @@ steps:
     - |
       echo "Upgrading node pool..."
       gcloud container clusters upgrade my-cluster \
-        --node-pool=default-pool \
+        --node-pool=pool-1 \
         --cluster=my-cluster \
         --region=us-central1 \
         --project=$PROJECT_ID \
