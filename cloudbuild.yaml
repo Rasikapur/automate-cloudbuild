@@ -1,30 +1,43 @@
 steps:
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: bash
-  args:
-    - -c
-    - |
-      echo "Upgrading node pool..."
-      gcloud container clusters upgrade my-cluster \
-        --node-pool=pool-1 \
-        --cluster=my-cluster \
-        --region=us-central1 \
-        --project=$PROJECT_ID \
-        --quiet
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        echo "Upgrading node pool..."
+        gcloud container clusters upgrade my-cluster \
+          --node-pool=pool-1 \
+          --cluster=my-cluster \
+          --region=us-central1 \
+          --project=$PROJECT_ID \
+          --quiet
 
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: bash
-  args:
-    - -c
-    - |
-      echo "Checking node status..."
-      gcloud container clusters describe my-cluster --region=us-central1 \
-      --format="value(currentMasterVersion)"
-      kubectl get nodes
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        echo "Checking node status..."
+        gcloud container clusters describe my-cluster --region=us-central1 \
+        --format="value(currentMasterVersion)"
+        kubectl get nodes
 
-
-steps:
-  - name: gcr.io/cloud-builders/gcloud
+  - name: 'gcr.io/cloud-builders/gcloud'
     args: ["echo", "NodePort change detected!"]
 
-      
+resource: "logging sink"
+name: "nodeport-change-sink"
+filter: |
+  resource.type="k8s_cluster"
+  protoPayload.methodName="io.k8s.core.v1.services.update"
+  protoPayload.request.spec.ports.nodePort:*
+destination: "pubsub.googleapis.com/projects/PROJECT_ID/topics/nodeport-changes"
+
+
+name: "nodeport-change-trigger"
+description: "Run build when NodePort changes"
+tags: ["gke", "nodeport"]
+pubsubConfig:
+  topic: "projects/PROJECT_ID/topics/nodeport-changes"
+filename: "cloudbuild.yaml"
+
