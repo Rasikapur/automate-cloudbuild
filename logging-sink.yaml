@@ -1,0 +1,7 @@
+name: nodeport-change-sink
+destination:
+  pubsubTopic: projects/sunlit-utility-472416-v9/topics/nodeport-changes
+filter: |
+  resource.type="k8s_cluster"
+  protoPayload.methodName="io.k8s.core.v1.services.update"
+  protoPayload.request.spec.ports.nodePort:*
