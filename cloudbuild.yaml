@@ -25,19 +25,4 @@ steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ["echo", "NodePort change detected!"]
 
-resource: "logging sink"
-name: "nodeport-change-sink"
-filter: |
-  resource.type="k8s_cluster"
-  protoPayload.methodName="io.k8s.core.v1.services.update"
-  protoPayload.request.spec.ports.nodePort:*
-destination: "pubsub.googleapis.com/projects/sunlit-utility-472416-v9/topics/nodeport-changes"
-
-
-name: "nodeport-change-trigger"
-description: "Run build when NodePort changes"
-tags: ["gke", "nodeport"]
-pubsubConfig:
-  topic: "projects/sunlit-utility-472416-v9/topics/nodeport-changes"
-filename: "cloudbuild.yaml"
 
