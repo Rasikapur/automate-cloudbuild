@@ -1,8 +1,8 @@
-name: nodeport-change-trigger
-description: "Run build when NodePort changes"
-triggerTemplate:
-  repoName: my-repo   # Replace with your repo
-  branchName: main    # Replace if needed
-pubsubConfig:
-  topic: projects/sunlit-utility-472416-v9/topics/nodeport-changes
-filename: cloudbuild.yaml
+# name: nodeport-change-trigger
+# description: "Run build when NodePort changes"
+# triggerTemplate:
+#   repoName: my-repo   # Replace with your repo
+#   branchName: main    # Replace if needed
+# pubsubConfig:
+#   topic: projects/sunlit-utility-472416-v9/topics/nodeport-changes
+# filename: cloudbuild.yaml
