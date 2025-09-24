@@ -1,0 +1,24 @@
+# Ingress
+# -------------------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: rasikapur
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "gke-static-ip"      # Your reserved static IP
+    networking.gke.io/managed-certificates: "rasi-cert"                 # ManagedCertificate
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"              # Force HTTP → HTTPS
+spec:
+  rules:
+    - host: app.balakonda.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
