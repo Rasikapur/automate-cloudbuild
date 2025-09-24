@@ -21,3 +21,10 @@
 #       gcloud container clusters describe my-cluster --region=us-central1 \
 #       --format="value(currentMasterVersion)"
 #       kubectl get nodes
+
+
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    args: ["echo", "NodePort change detected!"]
+
+      
