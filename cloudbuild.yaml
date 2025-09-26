@@ -1,11 +1,8 @@
 steps:
-- name: gcr.io/cloud-builders/gcloud
-  args:
-  - container
-  - clusters
-  - upgrade
-  - rasi
-  - --node-pool
-  - default-pool
-  - --zone
-  - us-central1-a
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        echo "⚡ GKE upgrade detected"
+        gcloud container clusters list
