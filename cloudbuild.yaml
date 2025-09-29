@@ -2,9 +2,7 @@ steps:
 - name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: bash
   args:
-    - -c
-    - |
-      echo "✅ GKE upgrade detected!"
-      gcloud container clusters describe rasi \
-        --zone=us-central1-a \
-        --project=$PROJECT_ID
+  - -c
+  - |
+    echo "✅ GKE upgrade detected!"
+    gcloud container clusters describe my-cluster --zone us-central1-a
