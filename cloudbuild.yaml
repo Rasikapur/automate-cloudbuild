@@ -5,4 +5,4 @@ steps:
   - -c
   - |
     echo "✅ GKE upgrade detected!"
-    gcloud container clusters describe my-cluster --zone us-central1-a
+    gcloud container clusters describe rasi --zone us-central1-a
